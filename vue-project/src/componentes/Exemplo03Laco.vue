@@ -4,7 +4,7 @@ let nomes = ['Alice', 'Bruna', 'Caio', 'Daniel', 'Ellen']
 
 <template>
     <ul>
-        //Diretiva geralemnte utilizada em listas ou tabelas
+        <!--Diretiva geralemnte utilizada em listas ou tabelas-->
         <li v-for="pessoa in nomes">{{ pessoa }}</li>
     </ul>
 </template>

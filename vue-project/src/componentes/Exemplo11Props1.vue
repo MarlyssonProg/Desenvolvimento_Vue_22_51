@@ -21,7 +21,7 @@ let estados = ['Maranhão', 'Piauí', 'Ceara', 'Pernambuco'];
 
 //Função
 function mensagem() {
-    alert('Função criada no componente: Exemplo11Props1')
+    alert('Função criada no componente: Exemplo11Props1!')
 }
 
 </script>

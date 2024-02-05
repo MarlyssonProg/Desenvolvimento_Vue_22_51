@@ -2,8 +2,6 @@
 
 <script setup>
 
-
-
 </script>
 
 <!--HTML-->

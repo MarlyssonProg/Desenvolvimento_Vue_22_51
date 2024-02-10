@@ -1,8 +1,19 @@
 {
-    "produtos":[
-        {"id":1,"produto":" OnePlus Ace 2 Pro","valor":"4500"},
-        {"id":2,"produto":" Galaxy S23 Ultra","valor":"6000"},
-        {"id":3,"produto":" Nubia Red Magic 8 Pro Plus","valor":"5500"}
-
+    "produtos": [
+        {
+            "id": 1,
+            "produto": " OnePlus Ace 2 Pro",
+            "valor": "4500"
+        },
+        {
+            "id": 2,
+            "produto": " Galaxy S24 Ultra",
+            "valor": "6000"
+        },
+        {
+            "id": 3,
+            "produto": " Nubia Red Magic 8 Pro Plus",
+            "valor": "5500"
+        }
     ]
 }

@@ -22,7 +22,45 @@ onMounted(() => {
 
 });
 
+// Objeto do tipo produto
+// Realizará o cadastro de produtos
+let obj = ref({ 'id': 0, 'produto': '', 'valor': 0 });
 
+//Função de Cadastro de produtos
+function cadastrar(event) {
+    //Requisição POST
+    fetch('http://localhost:3000/produtos', {
+        //Especifica o tipo de requisição 
+        //GET (Default - Padrão, sem necessidade de um segundo parametros),
+        //POST,PUT,DELETE (Todos esses precisam do segundo método)
+        method: 'POST',
+        // Objeto a ser cadastrado = body
+        // Conversão do objeto em texto json, para ser enviado pela requisição    
+        body: JSON.stringify(obj.value),
+        // Especificação tipo de dado manipulado (texto, JSON, XML etc)
+        headers: { 'Content-Type': 'application/json' }
+    })
+        //Conversão da requisição em JSON
+        .then(requisicao => requisicao.json())
+        //Exibição do JSON convertido
+        .then(retorno => {
+
+            //Cadastrando novo produto no vetor
+            produtos.value.push(retorno)
+
+            //Limpando os inputs
+
+            obj.value.produto = '';
+            obj.value.valor = 0;
+
+        });
+
+
+    //PreventDefault 
+    //Previne da página sofrer um refresh ao ser cadastrado! Porque não pode ser carregada?
+    // Se utilizar P maiusculo do preventDefault como sugere a IDE, não funciona
+    event.preventDefault();
+}
 </script>
 
 <!--CSS-->
@@ -42,9 +80,11 @@ input {
 
 <template>
     <!--FORMULÁRIO DE CADASTRO DE PRODUTOS-->
-    <form action="">
-        <input type="text" placeholder="Produto" class="form-control">
-        <input type="number" placeholder="Valor" class="form-control">
+    <form @submit="cadastrar">
+        <!--Teste para saber se estva funcionando o objeto do tipo produto criado no script-->
+        <!-- <p>{{ obj }}</p> -->
+        <input type="text" placeholder="Produto" class="form-control" v-model="obj.produto">
+        <input type="number" placeholder="Valor" class="form-control" v-model="obj.valor">
         <input type="submit" value="Cadastrar" class="btn btn-primary">
     </form>
     <!--TABELA-->

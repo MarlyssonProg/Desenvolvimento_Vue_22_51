@@ -25,9 +25,28 @@ onMounted(() => {
 
 </script>
 
+<!--CSS-->
+<style>
+form {
+    width: 50%;
+    margin: 30px auto;
+    text-align: center;
+
+}
+
+input {
+    margin-bottom: 10px;
+}
+</style>
 <!--HTML-->
 
 <template>
+    <!--FORMULÁRIO DE CADASTRO DE PRODUTOS-->
+    <form action="">
+        <input type="text" placeholder="Produto" class="form-control">
+        <input type="number" placeholder="Valor" class="form-control">
+        <input type="submit" value="Cadastrar" class="btn btn-primary">
+    </form>
     <!--TABELA-->
     <!--Classe Bootstrap que formata e colori linhas de uma tabela renderizada na template-->
     <table class="table table-striped">

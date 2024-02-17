@@ -23,11 +23,17 @@ onMounted(() => {
 });
 
 // Objeto do tipo produto
-// Realizará o cadastro de produtos
-let obj = ref({ 'id': 0, 'produto': '', 'valor': 0 });
+// Realizará o cadastro de produtos, onde a ID será medi
+let obj = ref({ 'id': produtos.value.length + 1, 'produto': '', 'valor': 0 });
 
 //Função de Cadastro de produtos
 function cadastrar(event) {
+
+    if (produtos.value.length > 0) {
+        obj.value.id = produtos.value[produtos.value.length - 1].id + 1;
+    } else {
+        obj.value.id = 1;
+    }
     //Requisição POST
     fetch('http://localhost:3000/produtos', {
         //Especifica o tipo de requisição 

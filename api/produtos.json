@@ -18,7 +18,12 @@
     {
       "id": 4,
       "produto": "Poco F6 Pro 5g",
-      "valor": 1900
+      "valor": 2400
+    },
+    {
+      "id": 5,
+      "produto": "Xiaomi Mi 13T",
+      "valor": 2800
     }
   ]
 }

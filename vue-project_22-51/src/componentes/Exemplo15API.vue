@@ -10,6 +10,9 @@ import { onMounted, ref } from 'vue';
 // Vetor reativo de produtos - atera-se sua visualização
 let produtos = ref([]);
 
+// Visisbilidade dos botões
+let btnCadastrar = ref(true);
+
 //Lifecycle -  OnMounted (Requisição do TIPO GET)
 // Uso de um hook onMounted para executar a lógica quando o componente é montado.
 onMounted(() => {
@@ -23,7 +26,8 @@ onMounted(() => {
 });
 
 // Objeto do tipo produto
-// Realizará o cadastro de produtos, onde a ID será medi
+// Realizará o cadastro de produtos, onde a ID será medida pelo length acrescido mais 1 
+// para haver uma geração sequencial de números únicos.
 let obj = ref({ 'id': produtos.value.length + 1, 'produto': '', 'valor': 0 });
 
 //Função de Cadastro de produtos
@@ -34,6 +38,7 @@ function cadastrar(event) {
     } else {
         obj.value.id = 1;
     }
+
     //Requisição POST
     fetch('http://localhost:3000/produtos', {
         //Especifica o tipo de requisição 
@@ -67,6 +72,57 @@ function cadastrar(event) {
     // Se utilizar P maiusculo do preventDefault como sugere a IDE, não funciona
     event.preventDefault();
 }
+
+//Function para selecionar um produto cadastrado 
+function selecionarProduto(indice) {
+    obj.value = {
+        id: produtos.value[indice].id,
+        produto: produtos.value[indice].produto,
+        valor: produtos.value[indice].valor
+    }
+    btnCadastrar.value = false;
+}
+
+//Função de Editar de produtos
+function editarProdutos() {
+
+    //Requisição POST
+    fetch(`http://localhost:3000/produtos/${obj.value.id}`, {
+        //Especifica o tipo de requisição 
+        //GET (Default - Padrão, sem necessidade de um segundo parametros),
+        //POST,PUT,DELETE (Todos esses precisam do segundo método)
+        method: 'PUT',
+        // Objeto a ser cadastrado = body
+        // Conversão do objeto em texto json, para ser enviado pela requisição    
+        body: JSON.stringify(obj.value),
+        // Especificação tipo de dado manipulado (texto, JSON, XML etc)
+        headers: { 'Content-Type': 'application/json' }
+    })
+        //Conversão da requisição em JSON
+        .then(requisicao => requisicao.json())
+        //Exibição do JSON convertido
+        .then(retorno => {
+
+            // Obter o indice do vetor a qual desejo editar
+            let indiceProduto = produtos.value.findIndex(objP => {
+                return objP.id === retorno.id;
+            });
+
+            //Editar produto no vetor
+            produtos.value[indiceProduto] = retorno;
+
+            // Alterar a visibilidade dos botões
+            btnCadastrar.value = true;
+
+            //Limpando os inputs
+            obj.value.id = 0;
+            obj.value.produto = '';
+            obj.value.valor = 0;
+
+        });
+
+}
+
 </script>
 
 <!--CSS-->
@@ -81,6 +137,11 @@ form {
 input {
     margin-bottom: 10px;
 }
+
+.espacamentoBtn {
+    margin-left: 5px;
+    margin-right: 5px;
+}
 </style>
 <!--HTML-->
 
@@ -89,9 +150,14 @@ input {
     <form @submit="cadastrar">
         <!--Teste para saber se estva funcionando o objeto do tipo produto criado no script-->
         <!-- <p>{{ obj }}</p> -->
+        <input type="hidden" v-model="obj.id">
         <input type="text" placeholder="Produto" class="form-control" v-model="obj.produto">
         <input type="number" placeholder="Valor" class="form-control" v-model="obj.valor">
-        <input type="submit" value="Cadastrar" class="btn btn-primary">
+        <input type="submit" v-if="btnCadastrar" value="Cadastrar" class="btn btn-primary">
+        <input type="button" @click="editarProdutos" v-if="!btnCadastrar" value="Editar"
+            class="btn btn-primary espacamentoBtn">
+        <input type="button" v-if="!btnCadastrar" value="Remover" class="btn btn-primary">
+
     </form>
     <!--TABELA-->
     <!--Classe Bootstrap que formata e colori linhas de uma tabela renderizada na template-->
@@ -106,11 +172,11 @@ input {
         </thead>
 
         <tbody>
-            <tr v-for="p in produtos">
+            <tr v-for="(p, indice) in produtos">
                 <td>{{ p.id }}</td>
                 <td>{{ p.produto }}</td>
                 <td>{{ p.valor }}</td>
-                <td><button class="btn btn-primary">Selecionado</button></td>
+                <td><button @click="selecionarProduto(indice)" class="btn btn-primary">Selecionado</button></td>
             </tr>
         </tbody>
 

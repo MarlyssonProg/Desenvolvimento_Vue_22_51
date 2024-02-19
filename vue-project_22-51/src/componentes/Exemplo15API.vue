@@ -30,7 +30,7 @@ onMounted(() => {
 // para haver uma geração sequencial de números únicos.
 let obj = ref({ 'id': produtos.value.length + 1, 'produto': '', 'valor': 0 });
 
-//Função de Cadastro de produtos
+//Função Cadastro de produtos
 function cadastrar(event) {
 
     if (produtos.value.length > 0) {
@@ -83,7 +83,7 @@ function selecionarProduto(indice) {
     btnCadastrar.value = false;
 }
 
-//Função de Editar de produtos
+//Função Editar de produtos
 function editarProdutos() {
 
     //Requisição POST
@@ -92,7 +92,7 @@ function editarProdutos() {
         //GET (Default - Padrão, sem necessidade de um segundo parametros),
         //POST,PUT,DELETE (Todos esses precisam do segundo método)
         method: 'PUT',
-        // Objeto a ser cadastrado = body
+        // Objeto a ser editado = body
         // Conversão do objeto em texto json, para ser enviado pela requisição    
         body: JSON.stringify(obj.value),
         // Especificação tipo de dado manipulado (texto, JSON, XML etc)
@@ -122,6 +122,44 @@ function editarProdutos() {
         });
 
 }
+
+//Função Remover de produtos
+function removerProdutos() {
+
+    //Requisição POST
+    fetch(`http://localhost:3000/produtos/${obj.value.id}`, {
+        //Especifica o tipo de requisição 
+        //GET (Default - Padrão, sem necessidade de um segundo parametros),
+        //POST,PUT,DELETE (Todos esses precisam do segundo método)
+        method: 'DELETE',
+        // Especificação tipo de dado manipulado (texto, JSON, XML etc)
+        headers: { 'Content-Type': 'application/json' }
+    })
+        //Conversão da requisição em JSON
+        .then(requisicao => requisicao.json())
+        //Exibição do JSON convertido
+        .then(() => {
+
+            // Obter o indice do vetor a qual desejo editar
+            let indiceProduto = produtos.value.findIndex(objP => {
+                return objP.id === obj.value.id;
+            });
+
+            //Remover produto no vetor
+            produtos.values.splice(indiceProduto, 1);
+
+            // Alterar a visibilidade dos botões
+            btnCadastrar.value = true;
+
+            //Limpando os inputs
+            obj.value.id = 0;
+            obj.value.produto = '';
+            obj.value.valor = 0;
+
+        });
+
+}
+
 
 </script>
 
@@ -156,7 +194,7 @@ input {
         <input type="submit" v-if="btnCadastrar" value="Cadastrar" class="btn btn-primary">
         <input type="button" @click="editarProdutos" v-if="!btnCadastrar" value="Editar"
             class="btn btn-primary espacamentoBtn">
-        <input type="button" v-if="!btnCadastrar" value="Remover" class="btn btn-primary">
+        <input type="button" @click="removerProdutos" v-if="!btnCadastrar" value="Remover" class="btn btn-primary">
 
     </form>
     <!--TABELA-->

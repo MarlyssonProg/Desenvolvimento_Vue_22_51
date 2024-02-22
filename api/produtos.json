@@ -14,6 +14,36 @@
       "id": 4,
       "produto": "Rog Phone 6 ",
       "valor": 5800
+    },
+    {
+      "id": 5,
+      "produto": "Samsung Galaxy Note 24 Ultra",
+      "valor": 6000
+    },
+    {
+      "id": 6,
+      "produto": "Azus Zenfone 9",
+      "valor": 2700
+    },
+    {
+      "id": 7,
+      "produto": "Motorola Moto G200",
+      "valor": 1800
+    },
+    {
+      "id": 8,
+      "produto": "Redmi Note 13 5G",
+      "valor": 1500
+    },
+    {
+      "id": 9,
+      "produto": "Samsung Galaxy M54",
+      "valor": 1800
+    },
+    {
+      "id": 10,
+      "produto": "Samsung Galaxy A54",
+      "valor": 1750
     }
   ]
 }

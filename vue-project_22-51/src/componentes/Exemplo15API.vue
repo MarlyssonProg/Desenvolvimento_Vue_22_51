@@ -146,7 +146,7 @@ function removerProdutos() {
             });
 
             //Remover produto no vetor
-            produtos.values.splice(indiceProduto, 1);
+            produtos.value.splice(indiceProduto, 1);
 
             // Alterar a visibilidade dos botões
             btnCadastrar.value = true;
